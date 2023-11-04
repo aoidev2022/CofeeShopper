@@ -21,3 +21,9 @@ Add-Migration InitialAspNetIdentityMigration -Context AspNetIdentityDbContext
 
 - Update database with the Identity Migrations
 Update-Database -Context AspNetIdentityDbContext
+
+
+---
+- To run and seed the IdentityServer4
+dotnet run .\IdentityServer\bin\Debug\net6.0\IdentityServer.dll /seed --project IdentityServer
+http://localhost:5213/.well-known/openid-configuration
