@@ -26,7 +26,7 @@ public class CofeeShopService : ICofeeShopService
             Id = q.Id,
             Address = q.Address,
             Name = q.Name,
-            OpenningHours = q.OpenningHours,
+            OpeningHours = q.OpenningHours,
         }).ToListAsync();
 
         return dtos;
