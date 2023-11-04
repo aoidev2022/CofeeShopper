@@ -1,3 +1,23 @@
 
-Create a Migration using the VS Package Manager and referencing to 'DataAccess' project
+- Create a Migration using the VS Package Manager and referencing to 'DataAccess' project
 Add-Migration Initial
+
+- Create an Indentity Migration using the VS Package Manager and referencing to 'IdentityServer' project
+Add-Migration InitialIdentityServerMigration -c PersistedGrantDbContext
+
+- Create an Indentity Migration using the VS Package Manager and referencing to 'IdentityServer' project
+Add-Migration InitialIdentityServerMigration -c ConfigurationDbContext
+
+- Update database with the Identity Migrations
+Update-Database -Context PersistedGrantDbContext
+
+- Update database with the Identity Migrations
+Update-Database -Context ConfigurationDbContext
+
+
+
+- Create a Migration database for the custom AspNetIdentityDbContext
+Add-Migration InitialAspNetIdentityMigration -Context AspNetIdentityDbContext
+
+- Update database with the Identity Migrations
+Update-Database -Context AspNetIdentityDbContext
