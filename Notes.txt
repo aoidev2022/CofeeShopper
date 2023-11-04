@@ -1,0 +1,3 @@
+
+Create a Migration using the VS Package Manager and referencing to 'DataAccess' project
+Add-Migration Initial
