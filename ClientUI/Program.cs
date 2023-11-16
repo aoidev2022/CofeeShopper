@@ -1,5 +1,9 @@
 using ClientUI.Services;
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +14,24 @@ builder.Services.AddHttpClient();
 builder.Services.Configure<IdentityServerSettings>(builder.Configuration.GetSection(nameof(IdentityServerSettings)));
 
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+{
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    options.Authority = builder.Configuration["InteractiveServiceSettings:AuthorityUrl"];
+    options.ClientId = builder.Configuration["InteractiveServiceSettings:ClientId"];
+    options.ClientSecret = builder.Configuration["InteractiveServiceSettings:ClientSecret"];
+
+    options.ResponseType = "code";
+    options.SaveTokens = true;
+    options.GetClaimsFromUserInfoEndpoint = true;
+});
 
 var app = builder.Build();
 
