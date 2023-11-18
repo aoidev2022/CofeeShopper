@@ -10,16 +10,10 @@ namespace ClientUI.Pages
     {
         public LogoutModel() { }
 
-        public async Task<IActionResult> OnGetAsync(string redirectUri)
+        public async Task<IActionResult> OnGetAsync()
         {
             await Task.CompletedTask;
-
-            return SignOut(new AuthenticationProperties
-            {
-                RedirectUri = Url.Content("~/")
-            }
-            , OpenIdConnectDefaults.AuthenticationScheme
-            , CookieAuthenticationDefaults.AuthenticationScheme);
+            return SignOut(new AuthenticationProperties(), OpenIdConnectDefaults.AuthenticationScheme, CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }
