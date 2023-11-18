@@ -27,11 +27,11 @@ namespace IdentityServerHost.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
         public AccountController(
             IIdentityServerInteractionService interaction,
@@ -40,6 +40,7 @@ namespace IdentityServerHost.Quickstart.UI
             IEventService events,
             SignInManager<IdentityUser> signInManager)
         {
+
             _interaction = interaction;
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
@@ -106,11 +107,10 @@ namespace IdentityServerHost.Quickstart.UI
             {
                 var user = await _signInManager.UserManager.FindByNameAsync(model.Username);
 
-                if(user is not null)
+                if (user is not null)
                 {
                     var userLogin = await _signInManager.CheckPasswordSignInAsync(user, model.Password, true);
 
-                    // validate username/password against in-memory store
                     if (userLogin == Microsoft.AspNetCore.Identity.SignInResult.Success)
                     {
                         await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));

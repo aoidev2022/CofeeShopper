@@ -62,16 +62,16 @@ public class SeedData
     {
         var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-        var angella = userMgr.FindByNameAsync("angella").Result;
-        if (angella == null)
+        var adonis = userMgr.FindByNameAsync("adonis").Result;
+        if (adonis == null)
         {
-            angella = new IdentityUser
+            adonis = new IdentityUser
             {
-                UserName = "angella",
-                Email = "angella.freeman@email.com",
+                UserName = "adonis",
+                Email = "adonis.cruz@mail.com",
                 EmailConfirmed = true
             };
-            var result = userMgr.CreateAsync(angella, "Pass123$").Result;
+            var result = userMgr.CreateAsync(adonis, "Pass123$").Result;
             if (!result.Succeeded)
             {
                 throw new Exception(result.Errors.First().Description);
@@ -79,14 +79,14 @@ public class SeedData
 
             result =
                 userMgr.AddClaimsAsync(
-                    angella,
+                    adonis,
                     new Claim[]
                     {
-                            new Claim(JwtClaimTypes.Name, "Angella Freeman"),
-                            new Claim(JwtClaimTypes.GivenName, "Angella"),
-                            new Claim(JwtClaimTypes.FamilyName, "Freeman"),
-                            new Claim(JwtClaimTypes.WebSite, "http://angellafreeman.com"),
-                            new Claim("location", "somewhere")
+                            new Claim(JwtClaimTypes.Name, "Adonis Cruz V"),
+                            new Claim(JwtClaimTypes.GivenName, "Adonis"),
+                            new Claim(JwtClaimTypes.FamilyName, "Cruz Villarraga"),
+                            new Claim(JwtClaimTypes.WebSite, "http://aoi.com"),
+                            new Claim("location", "Jamundí")
                     }
                 ).Result;
             if (!result.Succeeded)

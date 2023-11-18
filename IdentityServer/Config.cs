@@ -30,30 +30,32 @@ public class Config
         }
     };
 
-    public static IEnumerable<Client> Clients => new[]
-    {
-        new Client()
-        {
-            ClientId = "m2m.client",
-            ClientName = "Client_Credentials",
-            AllowedGrantTypes = GrantTypes.ClientCredentials,
-            ClientSecrets = new Secret[] { new Secret("clientSecret1".Sha256()) },
-            AllowedScopes = { "CofeeShop.API.read" }
-        },
-        new Client()
-        {
-            ClientId = "interactive",
-            ClientName = "Client_Interactive",
-            AllowedGrantTypes = GrantTypes.Code,
-            ClientSecrets = new Secret[] { new Secret("clientSecret1".Sha256()) },
-            AllowedScopes = { "openid", "profile", "CofeeShop.API.read" },
-            RedirectUris = { "https://localhost:???/signin-oidc" },
-            FrontChannelLogoutUri = "https://localhost:???/signout-oidc",
-            PostLogoutRedirectUris = { "https://localhost:???/signout-callback-oidc" },
-            AllowOfflineAccess = true,
-            RequirePkce = true,
-            RequireConsent = true,
-            AllowPlainTextPkce = true,
-        }
-    };
+    public static IEnumerable<Client> Clients =>
+            new[]
+            {
+                // m2m client credentials flow client
+                new Client
+                {
+                    ClientId = "m2m.client",
+                    ClientName = "Client Credentials Client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("ClientSecret1".Sha256()) },
+                    AllowedScopes = { "CofeeShop.API.read", "CofeeShop.API.write" }
+                },
+                // interactive client using code flow + pkce
+                new Client
+                {
+                    ClientId = "interactive",
+                    ClientSecrets = { new Secret("ClientSecret1".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RedirectUris = { "https://localhost:5214/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:5214/signout-oidc",
+                    PostLogoutRedirectUris = { "https://localhost:5214/signout-callback-oidc" },
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profile", "CofeeShop.API.read" },
+                    RequirePkce = true,
+                    RequireConsent = true,
+                    AllowPlainTextPkce = false
+                }
+            };
 }

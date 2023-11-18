@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 var seed = args.Contains("/seed");
 if (seed)
 {
-    args = args.Except(new string[] { "/seed" }).ToArray();
+    args = args.Except(new[] { "/seed" }).ToArray();
 }
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,10 +20,8 @@ if (seed)
     SeedData.EnsureSeedData(dbConnectionString);
 }
 
-builder.Services.AddDbContext<AspNetIdentityDbContext>(options =>
-{
-    options.UseSqlServer(dbConnectionString, b => b.MigrationsAssembly(assembly));
-});
+builder.Services.AddDbContext<AspNetIdentityDbContext>(options => 
+    options.UseSqlServer(dbConnectionString, b => b.MigrationsAssembly(assembly)));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AspNetIdentityDbContext>();
@@ -44,7 +42,6 @@ builder.Services
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
 app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
